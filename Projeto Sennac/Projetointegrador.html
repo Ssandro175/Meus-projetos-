@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Aprendiz - Senac Ponto & Atestados</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        senac: {
+                            blue: '#004587',
+                            darkblue: '#002f5d',
+                            orange: '#F37021',
+                            orangeDark: '#d85d11',
+                            lightBg: '#F1F5F9',
+                            cardBg: '#FFFFFF',
+                            text: '#1E293B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .senac-gradient {
+            background: linear-gradient(135deg, #004587 0%, #002f5d 100%);
+        }
+
+        .clock-shadow {
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-pulse {
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                box-shadow: 0 0 0 0 rgba(243, 112, 33, 0.5);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(243, 112, 33, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(243, 112, 33, 0);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation Header -->
+    <header class="senac-gradient text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand / Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white p-1.5 rounded-lg flex items-center justify-center shadow">
+                        <!-- SVG Logo Senac Simulado -->
+                        <svg class="h-8 w-auto text-senac-blue" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 28C15.5 28 18 26 18 22.5C18 17.5 10 17 10 13.5C10 11.5 12 10 14.5 10C17 10 18.5 11.2 19 13H23C22.2 9.5 19 7 14.5 7C9.5 7 6 10 6 14C6 18.5 14 19 14 22.5C14 24.5 12 25 9.5 25C6.5 25 4.8 23.2 4.2 21H0C0.8 25.2 4.8 28 12 28Z" fill="#004587"/>
+                            <path d="M26 8V27H30V19H37V27H41V8H37V15H30V8H26Z" fill="#F37021"/>
+                            <path d="M56 12C52 12 48 15 48 20C48 25 52 28 56 28C60.5 28 63.5 25.5 64 22H60C59.5 23.5 58 24.5 56 24.5C53.5 24.5 52 22.8 52 20C52 17.2 53.5 15.5 56 15.5C58 15.5 59.5 16.5 60 18H64C63.5 14.5 60.5 12 56 12Z" fill="#004587"/>
+                            <text x="68" y="24" font-family="Inter, sans-serif" font-weight="800" font-size="15" fill="#004587">ponto</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold tracking-wider text-amber-300 uppercase block">Portal do Aprendiz</span>
+                        <span class="text-sm font-bold leading-tight">Senac & ADP Connectivity</span>
+                    </div>
+                </div>
+
+                <!-- Student Quick Info & Avatar -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:block text-right">
+                        <p class="text-sm font-semibold leading-none">João Gabriel Langer</p>
+                        <p class="text-xs text-slate-200 mt-1">Matrícula: <span class="font-mono text-amber-300">2026.1.8842</span></p>
+                    </div>
+                    <div class="relative">
+                        <img class="h-10 w-10 rounded-full border-2 border-senac-orange object-cover shadow" 
+                             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250" 
+                             alt="Foto do Aprendiz">
+                        <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white" title="Status: Ativo"></span>
+                    </div>
+                    <button id="logoutBtn" class="text-slate-200 hover:text-white p-2 rounded-lg hover:bg-white/10 transition" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Tabs Navigation (ADP Style) -->
+        <div class="bg-senac-darkblue border-t border-blue-900/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-2 sm:space-x-8 overflow-x-auto py-2 scrollbar-none" id="mainNav">
+                    <button data-tab="tab-ponto" class="tab-btn active text-white bg-senac-orange/90 font-medium px-4 py-2 rounded-lg text-sm flex items-center space-x-2 whitespace-nowrap transition shadow-sm">
+                        <i class="fa-solid fa-clock"></i>
+                        <span>Batida de Ponto</span>
+                    </button>
+                    <button data-tab="tab-atestados" class="tab-btn text-slate-300 hover:text-white hover:bg-white/10 font-medium px-4 py-2 rounded-lg text-sm flex items-center space-x-2 whitespace-nowrap transition">
+                        <i class="fa-solid fa-file-medical"></i>
+                        <span>Atestados Médicos</span>
+                    </button>
+                    <button data-tab="tab-espelho" class="tab-btn text-slate-300 hover:text-white hover:bg-white/10 font-medium px-4 py-2 rounded-lg text-sm flex items-center space-x-2 whitespace-nowrap transition">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Espelho de Ponto</span>
+                    </button>
+                    <button data-tab="tab-assistente-ia" class="tab-btn text-amber-300 hover:text-white hover:bg-white/10 font-medium px-4 py-2 rounded-lg text-sm flex items-center space-x-2 whitespace-nowrap transition bg-white/10 border border-amber-400/30">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
+                        <span>Tutor IA do Aprendiz</span>
+                    </button>
+                    <button data-tab="tab-documentacao" class="tab-btn text-slate-300 hover:text-white hover:bg-white/10 font-medium px-4 py-2 rounded-lg text-sm flex items-center space-x-2 whitespace-nowrap transition">
+                        <i class="fa-solid fa-folder-open text-amber-400"></i>
+                        <span>Documentos de Cadastro</span>
+                    </button>
+                    <button data-tab="tab-perfil" class="tab-btn text-slate-300 hover:text-white hover:bg-white/10 font-medium px-4 py-2 rounded-lg text-sm flex items-center space-x-2 whitespace-nowrap transition">
+                        <i class="fa-solid fa-id-card"></i>
+                        <span>Dados do Contrato</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+        <!-- Banner do Programa Jovem Aprendiz -->
+        <div class="bg-gradient-to-r from-blue-900 to-senac-blue rounded-2xl text-white p-4 sm:p-6 mb-6 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="space-y-1 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium text-amber-300">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Programa Senac de Aprendizagem</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold">Assistente Administrativo - Turma 2026.1</h1>
+                <p class="text-xs sm:text-sm text-slate-200">
+                    Empresa Concedente: <strong class="text-white">Empresa Honda Imperial LTDA</strong> | Dia Teórico no Senac: <strong class="text-amber-300">Sexta-feira</strong>
+                </p>
+            </div>
+            <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/10 text-xs text-slate-100">
+                <i class="fa-solid fa-location-dot text-senac-orange text-lg"></i>
+                <div>
+                    <p class="font-semibold text-white">Local de Ponto Hoje:</p>
+                    <p class="text-slate-200">Senac Bahia - Sala 2</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 1: BATIDA DE PONTO ================= -->
+        <section id="tab-ponto" class="tab-content block space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Live Punch Clock Card -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col items-center justify-between relative overflow-hidden">
+                    
+                    <!-- Decorative Badge -->
+                    <div class="w-full flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="relative flex h-3 w-3">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                            </span>
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Relógio Oficial ADP / Senac</span>
+                        </div>
+                        <span id="gpsStatus" class="inline-flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full font-medium border border-emerald-200">
+                            <i class="fa-solid fa-circle-check"></i>
+                            GPS Validado (Senac)
+                        </span>
+                    </div>
+
+                    <!-- Digital Clock Display -->
+                    <div class="text-center my-4 w-full">
+                        <div id="currentDate" class="text-sm font-semibold text-senac-blue uppercase tracking-widest mb-1">
+                            Carregando data...
+                        </div>
+                        
+                        <!-- BIG CLOCK -->
+                        <div class="bg-slate-900 text-white font-mono rounded-2xl p-6 shadow-inner clock-shadow max-w-md mx-auto border-4 border-slate-800">
+                            <div id="digitalClock" class="text-4xl sm:text-6xl font-extrabold tracking-wider text-amber-400">
+                                00:00:00
+                            </div>
+                            <p class="text-xs text-slate-400 mt-2 flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                                Sincronizado com Servidor NTP do Senac
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Punch Type Selector -->
+                    <div class="w-full max-w-md my-4">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2 text-center">Selecione o Tipo de Registro:</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="punchTypeContainer">
+                            <button data-type="Entrada" class="punch-type-btn active bg-senac-blue text-white text-xs font-bold py-2 px-3 rounded-lg border border-senac-blue transition text-center shadow-sm">
+                                Entrada
+                            </button>
+                            <button data-type="Saída Almoço" class="punch-type-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition text-center">
+                                Sai Almoço
+                            </button>
+                            <button data-type="Volta Almoço" class="punch-type-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition text-center">
+                                Vol. Almoço
+                            </button>
+                            <button data-type="Saída" class="punch-type-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition text-center">
+                                Saída
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BIG PUNCH BUTTON -->
+                    <div class="my-4 text-center">
+                        <button id="baterPontoBtn" class="btn-pulse bg-gradient-to-r from-senac-orange to-amber-500 hover:from-senac-orangeDark hover:to-senac-orange text-white font-extrabold text-lg sm:text-xl py-6 px-10 rounded-2xl shadow-xl transition transform active:scale-95 flex items-center justify-center gap-3 mx-auto border-2 border-amber-300">
+                            <i class="fa-solid fa-fingerprint text-3xl"></i>
+                            <span>REGISTRAR PONTO AGORA</span>
+                        </button>
+                        <p class="text-xs text-slate-500 mt-3">
+                            <i class="fa-solid fa-lock text-slate-400"></i> Validação biometria/reconhecimento facial ativo
+                        </p>
+                    </div>
+
+                    <!-- Geolocation details footer -->
+                    <div class="w-full bg-slate-50 rounded-xl p-3 text-xs text-slate-600 flex items-center justify-between border border-slate-200 mt-2">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-map-pin text-senac-orange"></i>
+                            <strong>Coordenadas GPS:</strong> -12.2571, -38.9598 (Precisão 5m)
+                        </span>
+                        <span class="text-emerald-700 font-semibold hidden sm:inline">
+                            <i class="fa-solid fa-check-double"></i> Ponto Permitido
+                        </span>
+                    </div>
+
+                </div>
+
+                <!-- Today's Punches History Side Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                            <h2 class="text-base font-bold text-senac-blue flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-senac-orange"></i>
+                                Batidas de Hoje
+                            </h2>
+                            <span class="text-xs font-semibold bg-blue-50 text-senac-blue px-2.5 py-1 rounded-full border border-blue-100" id="todayDateSimple">
+                                --/--/----
+                            </span>
+                        </div>
+
+                        <!-- Expected Schedule Card -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">
+                            <div class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1">Jornada Prevista (Senac)</div>
+                            <p class="text-xs text-amber-900 font-semibold">08:00h - 12:00h | 13:00h - 17:00h</p>
+                            <p class="text-[11px] text-amber-700 mt-0.5">Tolerância CLT: ±5 minutos</p>
+                        </div>
+
+                        <!-- Timeline of Punches -->
+                        <div class="space-y-3 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-slate-200" id="todayPunchesTimeline">
+                            <!-- Punches will be rendered dynamically here -->
+                        </div>
+                    </div>
+
+                    <!-- Day Summary Status -->
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <div class="flex items-center justify-between text-xs mb-1">
+                            <span class="text-slate-500 font-medium">Horas Trabalhadas Hoje:</span>
+                            <span id="hoursWorkedToday" class="font-bold text-senac-blue text-sm">04h 00m</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div id="progressBarHours" class="bg-senac-orange h-full rounded-full transition-all duration-500" style="width: 50%;"></div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-2 text-right">Faltam 04h 00m para completar a jornada</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: DIGITALIZAÇÃO DE ATESTADOS MÉDICOS ================= -->
+        <section id="tab-atestados" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Form Upload Card -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <div class="border-b border-slate-100 pb-4 mb-6 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-lg font-bold text-senac-blue flex items-center gap-2">
+                                <i class="fa-solid fa-notes-medical text-senac-orange"></i>
+                                Digitalização de Atestado Médico
+                            </h2>
+                            <p class="text-xs text-slate-500 mt-0.5">Envie seu comprovante médico para abono de faltas ou justificativa teórica no Senac.</p>
+                        </div>
+                        <span class="bg-orange-50 text-senac-orange text-xs font-bold px-3 py-1 rounded-full border border-orange-200">
+                            Prazo: até 48h
+                        </span>
+                    </div>
+
+                    <form id="atestadoForm" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Data de Início do Atestado *</label>
+                                <input type="date" required id="atestadoData" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-senac-blue focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Quantidade de Dias *</label>
+                                <input type="number" min="1" max="30" value="1" required id="atestadoDias" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-senac-blue focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Código CID (Opcional)</label>
+                                <input type="text" placeholder="Ex: Z00.0, J11" id="atestadoCid" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-senac-blue focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome do Médico / CRM *</label>
+                                <input type="text" required placeholder="Ex: Dr. Roberto / CRM-BA 12345" id="atestadoMedico" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-senac-blue focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Motivo / Observação</label>
+                            <textarea rows="2" placeholder="Descreva brevemente o motivo do atendimento..." id="atestadoObs" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-senac-blue focus:outline-none"></textarea>
+                        </div>
+
+                        <!-- Dropzone / Digitalizer Area -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="block text-xs font-bold text-slate-700 uppercase">Anexo do Atestado (Foto ou PDF) *</label>
+                                <button type="button" id="btnAiOcr" class="hidden text-xs text-senac-blue font-bold hover:text-senac-orange transition flex items-center gap-1 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-amber-500 animate-pulse"></i>
+                                    <span>Analisar & Preencher com IA</span>
+                                </button>
+                            </div>
+                            <div id="dropZone" class="border-2 border-dashed border-slate-300 hover:border-senac-orange bg-slate-50 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center relative">
+                                <input type="file" id="atestadoFile" accept="image/*,application/pdf" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                
+                                <div id="uploadPrompt" class="space-y-2">
+                                    <div class="w-12 h-12 bg-orange-100 text-senac-orange rounded-full flex items-center justify-center mx-auto text-xl">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-700">Arraste a foto/documento ou clique para digitalizar</p>
+                                    <p class="text-xs text-slate-400">Suporta JPG, PNG ou PDF (Máx. 5MB) • Leitura com Inteligência Artificial</p>
+                                    
+                                    <div class="pt-2 flex justify-center gap-2">
+                                        <span class="inline-flex items-center gap-1 text-[11px] bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md">
+                                            <i class="fa-solid fa-camera"></i> Usar Câmera
+                                        </span>
+                                        <span class="inline-flex items-center gap-1 text-[11px] bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md">
+                                            <i class="fa-solid fa-folder-open"></i> Galeria/Arquivo
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- File Preview Box (Hidden initially) -->
+                                <div id="filePreview" class="hidden w-full flex flex-col gap-2 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-3 overflow-hidden">
+                                            <div class="p-2 bg-blue-50 text-senac-blue rounded-lg">
+                                                <i class="fa-solid fa-file-lines text-xl"></i>
+                                            </div>
+                                            <div class="text-left overflow-hidden">
+                                                <p id="fileName" class="text-xs font-bold text-slate-800 truncate">atestado_medico.jpg</p>
+                                                <p id="fileSize" class="text-[10px] text-slate-400">1.2 MB</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" id="removeFileBtn" class="text-slate-400 hover:text-red-500 p-1">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <button type="button" id="scanAtestadoAiBtn" class="w-full bg-gradient-to-r from-amber-500 to-senac-orange text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-2 shadow hover:opacity-95 transition">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        <span>Extrair Dados Automaticamente com Gemini IA</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-senac-blue hover:bg-senac-darkblue text-white font-bold py-3 px-6 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Enviar Atestado para o Senac/RH</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- History Side Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="border-b border-slate-100 pb-3 mb-4 flex items-center justify-between">
+                            <h3 class="font-bold text-senac-blue text-sm uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-clock-rotate-left text-senac-orange"></i>
+                                Histórico de Atestados
+                            </h3>
+                            <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-semibold">
+                                Total: 2
+                            </span>
+                        </div>
+
+                        <div class="space-y-3" id="atestadosList">
+                            <!-- Example Item 1 -->
+                            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-xs font-bold text-slate-800">12/07/2026 - 1 Dia</span>
+                                    <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                                        <i class="fa-solid fa-check"></i> Aprovado
+                                    </span>
+                                </div>
+                                <p class="text-xs text-slate-600">Dr. Marcos Souza (CRM 45892)</p>
+                                <p class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+                                    <span>CID: J00 (Gripe)</span>
+                                    <span class="text-senac-blue underline cursor-pointer hover:text-senac-orange">Ver Comprovante</span>
+                                </p>
+                            </div>
+
+                            <!-- Example Item 2 -->
+                            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-xs font-bold text-slate-800">03/05/2026 - 2 Dias</span>
+                                    <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                                        <i class="fa-solid fa-spinner animate-spin"></i> Em Análise RH
+                                    </span>
+                                </div>
+                                <p class="text-xs text-slate-600">UPA Central Feira de Santana</p>
+                                <p class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+                                    <span>Consulta Odontológica</span>
+                                    <span class="text-senac-blue underline cursor-pointer hover:text-senac-orange">Ver Comprovante</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Senac Rules Note -->
+                    <div class="mt-6 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs text-blue-900 space-y-1">
+                        <p class="font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-circle-info text-senac-blue"></i> Regra da Aprendizagem
+                        </p>
+                        <p class="text-[11px] text-blue-800 leading-relaxed">
+                            Atestados apresentados até 48 horas abonam a falta no dia de aula teórica do Senac e sincronizam automaticamente com a empresa concedente.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: ESPELHO DE PONTO ================= -->
+        <section id="tab-espelho" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 mb-6 gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-senac-blue flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-days text-senac-orange"></i>
+                            Espelho de Ponto Mensal
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Relatório consolidado das batidas de ponto no Senac e na Empresa.</p>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <button type="button" id="btnAnalisePontoIa" class="bg-gradient-to-r from-blue-900 to-senac-blue hover:from-senac-blue hover:to-senac-darkblue text-amber-300 border border-amber-400/40 font-bold px-3 py-2 rounded-lg text-xs flex items-center gap-1.5 transition shadow">
+                            <i class="fa-solid fa-brain"></i>
+                            <span>Análise Mensal com IA</span>
+                        </button>
+                        <select id="selectMes" class="bg-slate-50 border border-slate-300 text-xs font-bold text-slate-700 rounded-lg p-2 focus:ring-2 focus:ring-senac-blue">
+                            <option value="07-2026">Julho / 2026 (Atual)</option>
+                            <option value="06-2026">Junho / 2026</option>
+                            <option value="05-2026">Maio / 2026</option>
+                        </select>
+                        <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2 rounded-lg text-xs flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-print"></i> Imprimir
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Analysis Card Box (Initially Hidden) -->
+                <div id="aiEspelhoCard" class="hidden mb-6 bg-gradient-to-r from-blue-900 via-senac-blue to-blue-950 text-white rounded-2xl p-5 shadow-md border border-amber-400/30">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-1.5 bg-amber-400/20 text-amber-300 rounded-lg">
+                                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-amber-300">Diagnóstico de Frequência - IA Gemini</h3>
+                        </div>
+                        <button type="button" onclick="document.getElementById('aiEspelhoCard').classList.add('hidden')" class="text-slate-300 hover:text-white text-xs">
+                            <i class="fa-solid fa-xmark text-base"></i>
+                        </button>
+                    </div>
+                    <div id="aiEspelhoContent" class="text-xs text-slate-200 leading-relaxed space-y-2">
+                        <div class="flex items-center gap-2 text-amber-200">
+                            <i class="fa-solid fa-spinner animate-spin"></i>
+                            <span>Analisando padrões de entrada, saídas, abonos e jornada...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly KPI Summary Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                        <span class="text-[11px] font-semibold text-slate-500 uppercase block">Previstas</span>
+                        <span class="text-lg font-extrabold text-senac-blue">80h 00m</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                        <span class="text-[11px] font-semibold text-slate-500 uppercase block">Cumpridas</span>
+                        <span class="text-lg font-extrabold text-emerald-600">82h 15m</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                        <span class="text-[11px] font-semibold text-slate-500 uppercase block">Abonos / Atestados</span>
+                        <span class="text-lg font-extrabold text-amber-600">08h 00m</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                        <span class="text-[11px] font-semibold text-slate-500 uppercase block">Saldo de Horas</span>
+                        <span class="text-lg font-extrabold text-senac-orange">+02h 15m</span>
+                    </div>
+                </div>
+
+                <!-- Detailed Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-senac-blue text-white font-bold uppercase">
+                                <th class="p-3 rounded-tl-lg">Data</th>
+                                <th class="p-3">Local</th>
+                                <th class="p-3 text-center">Entrada</th>
+                                <th class="p-3 text-center">Saída Almoço</th>
+                                <th class="p-3 text-center">Volta Almoço</th>
+                                <th class="p-3 text-center">Saída</th>
+                                <th class="p-3 text-center">Total</th>
+                                <th class="p-3 rounded-tr-lg text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-medium" id="espelhoTableBody">
+                            <!-- Dynamic rows loaded via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 5: TUTOR IA / ASSISTENTE DO APRENDIZ ================= -->
+        <section id="tab-assistente-ia" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-100 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 mb-2">
+                            <i class="fa-solid fa-robot"></i>
+                            <span>Gemini AI Tutor Integrado</span>
+                        </div>
+                        <h2 class="text-lg font-bold text-senac-blue flex items-center gap-2">
+                            <i class="fa-solid fa-comments text-senac-orange"></i>
+                            Tutor IA do Aprendiz Senac
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Tire dúvidas sobre a Lei da Aprendizagem, normas do Senac, registro de ponto ADP e atestados médicos.</p>
+                    </div>
+                    <div class="text-xs bg-blue-50 text-senac-blue font-semibold p-2.5 rounded-xl border border-blue-100 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-amber-500 text-base"></i>
+                        <span>Respostas baseadas na CLT (Lei 10.097/2000) e Regulamento Senac</span>
+                    </div>
+                </div>
+
+                <!-- Preset Prompt Buttons -->
+                <div class="mb-4">
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Perguntas Frequentes do Aprendiz:</p>
+                    <div class="flex flex-wrap gap-2" id="presetPrompts">
+                        <button class="preset-btn bg-slate-100 hover:bg-senac-blue hover:text-white text-slate-700 text-xs font-medium py-1.5 px-3 rounded-lg transition border border-slate-200">
+                            📌 Quanto tempo de tolerância tenho no ponto?
+                        </button>
+                        <button class="preset-btn bg-slate-100 hover:bg-senac-blue hover:text-white text-slate-700 text-xs font-medium py-1.5 px-3 rounded-lg transition border border-slate-200">
+                            🏥 Qual é o prazo para entregar atestado no Senac?
+                        </button>
+                        <button class="preset-btn bg-slate-100 hover:bg-senac-blue hover:text-white text-slate-700 text-xs font-medium py-1.5 px-3 rounded-lg transition border border-slate-200">
+                            🏖️ Como funcionam as férias do Jovem Aprendiz?
+                        </button>
+                        <button class="preset-btn bg-slate-100 hover:bg-senac-blue hover:text-white text-slate-700 text-xs font-medium py-1.5 px-3 rounded-lg transition border border-slate-200">
+                            ⏰ Posso fazer hora extra ou compensação?
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Box Screen -->
+                <div class="bg-slate-900 rounded-2xl p-4 h-80 overflow-y-auto space-y-4 flex flex-col shadow-inner border-2 border-slate-800" id="chatHistory">
+                    <!-- Welcome AI message -->
+                    <div class="flex gap-3 max-w-xl">
+                        <div class="w-8 h-8 rounded-full bg-senac-orange flex items-center justify-center text-white shrink-0 text-sm shadow">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="bg-slate-800 text-slate-100 text-xs p-3.5 rounded-2xl rounded-tl-none border border-slate-700 space-y-1">
+                            <p class="font-bold text-amber-300">Assistente do Aprendiz Senac</p>
+                            <p>Olá, João Gabriel! Sou o assistente virtual com inteligência artificial do Senac. Como posso ajudar com seu contrato de aprendizagem, registro de ponto ADP ou atestados hoje?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input area -->
+                <form id="chatForm" class="mt-4 flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Digite sua dúvida sobre ponto, atestado, Senac ou lei de aprendizagem..." required class="flex-grow bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-xs focus:ring-2 focus:ring-senac-blue focus:outline-none">
+                    <button type="submit" id="sendChatBtn" class="bg-senac-orange hover:bg-senac-orangeDark text-white font-bold px-6 py-3 rounded-xl transition shadow flex items-center gap-2 text-xs">
+                        <span>Perguntar</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= TAB 6: DOCUMENTAÇÃO DE CADASTRO ================= -->
+        <section id="tab-documentacao" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <!-- Header Banner da Documentação -->
+                <div class="border-b border-slate-100 pb-5 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-senac-blue mb-2">
+                            <i class="fa-solid fa-file-circle-check"></i>
+                            <span>Processo de Admissão & Matrícula 2026</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-senac-blue flex items-center gap-2">
+                            <i class="fa-solid fa-folder-open text-senac-orange"></i>
+                            Envio de Documentação de Cadastro
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Envie os documentos exigidos para homologação do contrato na <strong>Empresa Concedente</strong> e vinculação no <strong>Senac</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Progresso de Entrega -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 sm:w-72">
+                        <div class="flex justify-between items-center text-xs font-bold mb-1">
+                            <span class="text-slate-600 uppercase tracking-wider">Status do Cadastro:</span>
+                            <span id="docProgressText" class="text-senac-blue font-mono font-extrabold">5/8 Concluídos (62%)</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="docProgressBar" class="bg-gradient-to-r from-senac-orange to-emerald-500 h-full rounded-full transition-all duration-500" style="width: 62.5%;"></div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-1.5 text-right">Faltam 3 documentos para validação final</p>
+                    </div>
+                </div>
+
+                <!-- Tabs de Filtro de Destino (Todos, Senac, Empresa) -->
+                <div class="flex items-center space-x-2 border-b border-slate-200 pb-3 mb-6 overflow-x-auto">
+                    <button class="doc-filter-btn active bg-senac-blue text-white text-xs font-bold px-3 py-1.5 rounded-lg transition" data-filter="all">
+                        <i class="fa-solid fa-layer-group"></i> Todos os Documentos (8)
+                    </button>
+                    <button class="doc-filter-btn bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg transition" data-filter="senac">
+                        <i class="fa-solid fa-graduation-cap text-senac-blue"></i> Para o Senac (4)
+                    </button>
+                    <button class="doc-filter-btn bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg transition" data-filter="empresa">
+                        <i class="fa-solid fa-building text-senac-orange"></i> Para a Empresa (4)
+                    </button>
+                </div>
+
+                <!-- Document Checklist Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="docCardsContainer">
+                    
+                    <!-- Doc Item 1: Comprovante de Matrícula (Senac) -->
+                    <div class="doc-card doc-senac p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition shadow-sm space-y-3" data-doc-id="1">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-blue-100 text-senac-blue rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-school"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-blue-50 text-senac-blue px-2 py-0.5 rounded border border-blue-200 uppercase mb-1">Para o Senac</span>
+                                    <h3 class="text-xs font-bold text-slate-800">Comprovante de Escolaridade</h3>
+                                    <p class="text-[11px] text-slate-500">Declaração de Matrícula ou Frequência Escolar do Ensino Médio/Fundamental atualizada.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-check"></i> Aprovado
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-file-pdf text-red-500"></i> declaracao_escola_2026.pdf</span>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="triggerDocUpload('1')" class="text-senac-blue hover:text-senac-orange text-xs font-semibold underline">Alterar</button>
+                            </div>
+                        </div>
+                        <input type="file" id="fileDoc1" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('1', this)">
+                    </div>
+
+                    <!-- Doc Item 2: RG e CPF (Senac) -->
+                    <div class="doc-card doc-senac p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition shadow-sm space-y-3" data-doc-id="2">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-blue-100 text-senac-blue rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-id-card"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-blue-50 text-senac-blue px-2 py-0.5 rounded border border-blue-200 uppercase mb-1">Para o Senac</span>
+                                    <h3 class="text-xs font-bold text-slate-800">RG e CPF do Aprendiz</h3>
+                                    <p class="text-[11px] text-slate-500">Documento de identidade oficial com foto legível e número do CPF.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-check"></i> Aprovado
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-file-image text-blue-500"></i> rg_frente_verso.jpg</span>
+                            <button type="button" onclick="triggerDocUpload('2')" class="text-senac-blue hover:text-senac-orange text-xs font-semibold underline">Alterar</button>
+                        </div>
+                        <input type="file" id="fileDoc2" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('2', this)">
+                    </div>
+
+                    <!-- Doc Item 3: Comprovante de Residência (Senac & Empresa) -->
+                    <div class="doc-card doc-senac p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition shadow-sm space-y-3" data-doc-id="3">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-blue-100 text-senac-blue rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-house-user"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-blue-50 text-senac-blue px-2 py-0.5 rounded border border-blue-200 uppercase mb-1">Para o Senac</span>
+                                    <h3 class="text-xs font-bold text-slate-800">Comprovante de Residência</h3>
+                                    <p class="text-[11px] text-slate-500">Conta de luz, água ou telefone emitida nos últimos 90 dias em nome do aluno ou responsável.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-check"></i> Aprovado
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-file-pdf text-red-500"></i> conta_energia_junho.pdf</span>
+                            <button type="button" onclick="triggerDocUpload('3')" class="text-senac-blue hover:text-senac-orange text-xs font-semibold underline">Alterar</button>
+                        </div>
+                        <input type="file" id="fileDoc3" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('3', this)">
+                    </div>
+
+                    <!-- Doc Item 4: CTPS Digital / Carteira de Trabalho (Senac) -->
+                    <div class="doc-card doc-senac p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition shadow-sm space-y-3" data-doc-id="4">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-blue-100 text-senac-blue rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-id-badge"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-blue-50 text-senac-blue px-2 py-0.5 rounded border border-blue-200 uppercase mb-1">Para o Senac</span>
+                                    <h3 class="text-xs font-bold text-slate-800">Carteira de Trabalho (CTPS Digital)</h3>
+                                    <p class="text-[11px] text-slate-500">PDF exportado do aplicativo Carteira de Trabalho Digital ou foto da página com número/série.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-spinner animate-spin"></i> Em Análise
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-file-pdf text-red-500"></i> ctps_digital_joao.pdf</span>
+                            <button type="button" onclick="triggerDocUpload('4')" class="text-senac-blue hover:text-senac-orange text-xs font-semibold underline">Reenviar</button>
+                        </div>
+                        <input type="file" id="fileDoc4" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('4', this)">
+                    </div>
+
+                    <!-- Doc Item 5: Exame Médico ASO Admissional (Empresa) -->
+                    <div class="doc-card doc-empresa p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition shadow-sm space-y-3" data-doc-id="5">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-orange-100 text-senac-orange rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-stethoscope"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-orange-50 text-senac-orange px-2 py-0.5 rounded border border-orange-200 uppercase mb-1">Para a Empresa</span>
+                                    <h3 class="text-xs font-bold text-slate-800">Atestado de Saúde Ocupacional (ASO)</h3>
+                                    <p class="text-[11px] text-slate-500">Atestado Médico Admissional emitido pela clínica indicada pela empresa concedente.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-check"></i> Aprovado
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-file-pdf text-red-500"></i> aso_admissional_assinado.pdf</span>
+                            <button type="button" onclick="triggerDocUpload('5')" class="text-senac-blue hover:text-senac-orange text-xs font-semibold underline">Alterar</button>
+                        </div>
+                        <input type="file" id="fileDoc5" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('5', this)">
+                    </div>
+
+                    <!-- Doc Item 6: Termo de Compromisso TCA (Empresa) -->
+                    <div class="doc-card doc-empresa p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition shadow-sm space-y-3" data-doc-id="6">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-orange-100 text-senac-orange rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-file-signature"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-orange-50 text-senac-orange px-2 py-0.5 rounded border border-orange-200 uppercase mb-1">Para a Empresa</span>
+                                    <h3 class="text-xs font-bold text-slate-800">Termo de Compromisso de Aprendizagem (TCA)</h3>
+                                    <p class="text-[11px] text-slate-500">Contrato assinado pelo Jovem Aprendiz, responsável legal (se menor) e empresa.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-check"></i> Aprovado
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-file-pdf text-red-500"></i> tca_contrato_aprendizagem.pdf</span>
+                            <button type="button" onclick="triggerDocUpload('6')" class="text-senac-blue hover:text-senac-orange text-xs font-semibold underline">Alterar</button>
+                        </div>
+                        <input type="file" id="fileDoc6" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('6', this)">
+                    </div>
+
+                    <!-- Doc Item 7: Comprovante Bancário (Empresa) - Pendente -->
+                    <div class="doc-card doc-empresa p-4 rounded-xl border border-rose-200 bg-rose-50/30 hover:bg-white transition shadow-sm space-y-3" data-doc-id="7">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-rose-100 text-rose-600 rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-building-columns"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-orange-50 text-senac-orange px-2 py-0.5 rounded border border-orange-200 uppercase mb-1">Para a Empresa</span>
+                                    <h3 class="text-xs font-bold text-slate-800">Comprovante de Dados Bancários</h3>
+                                    <p class="text-[11px] text-slate-500">Comprovante de conta corrente ou salário no nome do aprendiz para depósito da Bolsa Auxílio.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-circle-exclamation"></i> Pendente Envio
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]">Nenhum arquivo enviado</span>
+                            <button type="button" onclick="triggerDocUpload('7')" class="bg-senac-blue hover:bg-senac-darkblue text-white text-xs font-bold px-3 py-1 rounded-lg transition flex items-center gap-1">
+                                <i class="fa-solid fa-upload"></i> Enviar Arquivo
+                            </button>
+                        </div>
+                        <input type="file" id="fileDoc7" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('7', this)">
+                    </div>
+
+                    <!-- Doc Item 8: Cartão de Vacinação / PIS (Empresa) - Pendente -->
+                    <div class="doc-card doc-empresa p-4 rounded-xl border border-rose-200 bg-rose-50/30 hover:bg-white transition shadow-sm space-y-3" data-doc-id="8">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-rose-100 text-rose-600 rounded-xl text-lg shrink-0">
+                                    <i class="fa-solid fa-syringe"></i>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] font-extrabold bg-orange-50 text-senac-orange px-2 py-0.5 rounded border border-orange-200 uppercase mb-1">Para a Empresa</span>
+                                    <h3 class="text-xs font-bold text-slate-800">Comprovante de Vacinação / PIS</h3>
+                                    <p class="text-[11px] text-slate-500">Carteira de vacinação atualizada (Cód. ConecteSUS) e/ou número do PIS/PASEP.</p>
+                                </div>
+                            </div>
+                            <span class="doc-status-badge text-[10px] font-bold bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                                <i class="fa-solid fa-circle-exclamation"></i> Pendente Envio
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                            <span class="text-slate-400 text-[11px]">Nenhum arquivo enviado</span>
+                            <button type="button" onclick="triggerDocUpload('8')" class="bg-senac-blue hover:bg-senac-darkblue text-white text-xs font-bold px-3 py-1 rounded-lg transition flex items-center gap-1">
+                                <i class="fa-solid fa-upload"></i> Enviar Arquivo
+                            </button>
+                        </div>
+                        <input type="file" id="fileDoc8" class="hidden" accept="image/*,.pdf" onchange="handleDocFileSelected('8', this)">
+                    </div>
+
+                </div>
+
+                <!-- Guidance Note -->
+                <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3 text-xs text-amber-900">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg shrink-0 mt-0.5"></i>
+                    <div class="space-y-1">
+                        <p class="font-bold">Atenção sobre a entrega de documentos:</p>
+                        <p class="text-[11px] text-amber-800 leading-relaxed">
+                            Todos os arquivos devem estar legíveis, sem cortes nas bordas e em formato PDF, PNG ou JPG de até 5MB. A verificação do RH da empresa e do setor de matrículas do Senac ocorre em até 3 dias úteis após a transmissão.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: PERFIL / CONTRATO ================= -->
+        <section id="tab-perfil" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <h2 class="text-lg font-bold text-senac-blue flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-senac-orange"></i>
+                        Ficha do Jovem Aprendiz
+                    </h2>
+                    <p class="text-xs text-slate-500">Informações contratuais e vinculação com o Senac.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h3 class="text-xs font-bold text-senac-orange uppercase tracking-wider border-b pb-1">Dados Pessoais</h3>
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <span class="text-slate-400 block">Nome Completo:</span>
+                                <span class="font-bold text-slate-800">Lucas Andrade Silva</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">CPF:</span>
+                                <span class="font-bold text-slate-800">***.458.915-**</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Matrícula Senac:</span>
+                                <span class="font-bold text-senac-blue">2026.1.8842</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Data Nasc.:</span>
+                                <span class="font-bold text-slate-800">14/09/2007</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-xs font-bold text-senac-orange uppercase tracking-wider border-b pb-1">Dados do Programa de Aprendizagem</h3>
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <span class="text-slate-400 block">Curso:</span>
+                                <span class="font-bold text-slate-800">Aprendizagem Profissional em Serviços Administrativos</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Unidade Senac:</span>
+                                <span class="font-bold text-slate-800">Senac Feira de Santana</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Empresa Parceira:</span>
+                                <span class="font-bold text-slate-800">Empresa Parceira S/A</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Vigência Contrato:</span>
+                                <span class="font-bold text-emerald-600">01/02/2026 a 31/01/2027</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-white">SENAC</span>
+                <span>• Serviço Nacional de Aprendizagem Comercial</span>
+            </div>
+            <div class="text-center sm:text-right">
+                <p>Sistema Integrado de Ponto Eletrônico ADP Workforce®</p>
+                <p class="text-slate-500 text-[11px] mt-0.5">Versão 2026.4.1 — Conexão Criptografada SSL</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Modal -->
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50 bg-slate-900 text-white px-5 py-4 rounded-xl shadow-2xl flex items-center space-x-3 border-l-4 border-senac-orange max-w-md pointer-events-none">
+        <div id="toastIcon" class="text-senac-orange text-xl">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+            <h4 id="toastTitle" class="font-bold text-sm text-white">Sucesso</h4>
+            <p id="toastMessage" class="text-xs text-slate-300">Ponto registrado com sucesso!</p>
+        </div>
+    </div>
+
+    <script>
+        // State Management
+        let currentPunchType = 'Entrada';
+        let punchesToday = [
+            { id: 1, type: 'Entrada', time: '08:02', status: 'No Horário', location: 'Senac Campus' },
+            { id: 2, type: 'Saída Almoço', time: '12:01', status: 'No Horário', location: 'Senac Campus' }
+        ];
+
+        // Monthly Data Mock for Espelho
+        const espelhoData = [
+            { data: '24/07/2026', local: 'Senac', e1: '08:00', s1: '12:00', e2: '13:00', s2: '17:00', total: '08:00', status: 'OK' },
+            { data: '23/07/2026', local: 'Empresa', e1: '08:05', s1: '12:00', e2: '13:00', s2: '17:05', total: '08:00', status: 'OK' },
+            { data: '22/07/2026', local: 'Empresa', e1: '08:00', s1: '12:00', e2: '13:00', s2: '17:00', total: '08:00', status: 'OK' },
+            { data: '21/07/2026', local: 'Empresa', e1: '08:01', s1: '12:00', e2: '13:00', s2: '17:00', total: '07:59', status: 'OK' },
+            { data: '18/07/2026', local: 'Senac', e1: '--:--', s1: '--:--', e2: '--:--', s2: '--:--', total: '00:00', status: 'Atestado' },
+            { data: '17/07/2026', local: 'Senac', e1: '08:00', s1: '12:00', e2: '13:00', s2: '17:00', total: '08:00', status: 'OK' },
+        ];
+
+        // Gemini API Helper Function with exponential backoff
+        async function callGeminiAPI(payload) {
+            const apiKey = ""; // Canvas runtime injects key automatically
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            let retries = 3;
+            let delay = 1000;
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    return data;
+                } catch (err) {
+                    if (i === retries - 1) throw err;
+                    await new Promise(r => setTimeout(r, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // DOM Loaded Init
+        document.addEventListener('DOMContentLoaded', () => {
+            initClock();
+            initTabs();
+            initPunchTypeSelector();
+            initPunchButton();
+            initFileUpload();
+            renderTimeline();
+            renderEspelho();
+            initChatBot();
+            initEspelhoAiAnalysis();
+            initDocFilters();
+        });
+
+        // Document Filters & Upload Logic
+        function initDocFilters() {
+            const filterBtns = document.querySelectorAll('.doc-filter-btn');
+            const docCards = document.querySelectorAll('.doc-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-senac-blue', 'text-white');
+                        b.classList.add('bg-slate-100', 'text-slate-700');
+                    });
+                    btn.classList.add('active', 'bg-senac-blue', 'text-white');
+                    btn.classList.remove('bg-slate-100', 'text-slate-700');
+
+                    const filter = btn.getAttribute('data-filter');
+                    docCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.classList.remove('hidden');
+                        } else if (filter === 'senac' && card.classList.contains('doc-senac')) {
+                            card.classList.remove('hidden');
+                        } else if (filter === 'empresa' && card.classList.contains('doc-empresa')) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        }
+
+        function triggerDocUpload(docId) {
+            const fileInput = document.getElementById(`fileDoc${docId}`);
+            if (fileInput) fileInput.click();
+        }
+
+        function handleDocFileSelected(docId, input) {
+            if (!input.files || input.files.length === 0) return;
+
+            const file = input.files[0];
+            const card = document.querySelector(`.doc-card[data-doc-id="${docId}"]`);
+            if (!card) return;
+
+            // Change border styling and badge
+            card.classList.remove('border-rose-200', 'bg-rose-50/30');
+            card.classList.add('border-slate-200', 'bg-slate-50');
+
+            const badge = card.querySelector('.doc-status-badge');
+            if (badge) {
+                badge.className = 'doc-status-badge text-[10px] font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0';
+                badge.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Em Análise RH`;
+            }
+
+            // Update footer row
+            const footerRow = card.querySelector('.border-t');
+            if (footerRow) {
+                const isPdf = file.name.endsWith('.pdf');
+                const iconClass = isPdf ? 'fa-file-pdf text-red-500' : 'fa-file-image text-blue-500';
+                footerRow.innerHTML = `
+                    <span class="text-slate-600 text-[11px] truncate max-w-[180px] block" title="${file.name}">
+                        <i class="fa-solid ${iconClass}"></i> ${file.name}
+                    </span>
+                    <button type="button" onclick="triggerDocUpload('${docId}')" class="text-senac-blue hover:text-senac-orange text-xs font-semibold underline">Alterar</button>
+                `;
+            }
+
+            // Recalculate progress
+            updateDocProgress();
+
+            showToast(
+                'Documento Enviado!',
+                `O arquivo "${file.name}" foi enviado e está sob análise do setor de cadastro.`,
+                'success'
+            );
+        }
+
+        function updateDocProgress() {
+            const total = 8;
+            let completed = 0;
+
+            document.querySelectorAll('.doc-card').forEach(card => {
+                const badge = card.querySelector('.doc-status-badge');
+                if (badge && (badge.textContent.includes('Aprovado') || badge.textContent.includes('Em Análise'))) {
+                    completed++;
+                }
+            });
+
+            const percent = Math.round((completed / total) * 100);
+            const progressText = document.getElementById('docProgressText');
+            const progressBar = document.getElementById('docProgressBar');
+
+            if (progressText) progressText.textContent = `${completed}/${total} Concluídos (${percent}%)`;
+            if (progressBar) progressBar.style.width = `${percent}%`;
+        }
+
+        function initChatBot() {
+            const chatForm = document.getElementById('chatForm');
+            const chatInput = document.getElementById('chatInput');
+            const chatHistory = document.getElementById('chatHistory');
+            const presetBtns = document.querySelectorAll('.preset-btn');
+
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    chatInput.value = btn.textContent.replace(/^[^\s]+\s*/, '').trim();
+                    chatForm.dispatchEvent(new Event('submit'));
+                });
+            });
+
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const query = chatInput.value.trim();
+                if (!query) return;
+
+                // Add User Message
+                appendMessage('user', query);
+                chatInput.value = '';
+
+                // Add Loading Indicator
+                const loadingId = appendLoadingMessage();
+
+                try {
+                    const systemPrompt = "Você é o Tutor IA do Aprendiz Senac. Seu objetivo é orientar jovens aprendizes brasileiros sobre a Lei da Aprendizagem (Lei 10.097/2000), cartão de ponto ADP, frequência escolar e no Senac, atestados médicos e deveres contratuais. Mantenha um tom encorajador, claro, profissional e empático. Responda em no máximo 3 parágrafos curtos, usando marcadores se necessário.";
+                    
+                    const payload = {
+                        contents: [{ parts: [{ text: query }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    };
+
+                    const response = await callGeminiAPI(payload);
+                    removeLoadingMessage(loadingId);
+
+                    const replyText = response.candidates?.[0]?.content?.parts?.[0]?.text || "Desculpe, não consegui processar sua dúvida no momento. Tente novamente.";
+                    appendMessage('ai', replyText);
+
+                } catch (err) {
+                    removeLoadingMessage(loadingId);
+                    appendMessage('ai', 'Ops! Tive um problema ao conectar com o serviço de Inteligência Artificial. Por favor, verifique sua conexão e tente novamente.');
+                }
+            });
+
+            function appendMessage(sender, text) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = sender === 'user' ? 'flex gap-3 max-w-xl ml-auto justify-end' : 'flex gap-3 max-w-xl';
+
+                if (sender === 'user') {
+                    msgDiv.innerHTML = `
+                        <div class="bg-senac-blue text-white text-xs p-3.5 rounded-2xl rounded-tr-none shadow border border-blue-800">
+                            <p class="font-bold text-amber-300">Você</p>
+                            <p>${text.replace(/\n/g, '<br>')}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white shrink-0 text-sm shadow">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    `;
+                } else {
+                    msgDiv.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-senac-orange flex items-center justify-center text-white shrink-0 text-sm shadow">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="bg-slate-800 text-slate-100 text-xs p-3.5 rounded-2xl rounded-tl-none border border-slate-700 space-y-1">
+                            <p class="font-bold text-amber-300">Tutor IA Senac</p>
+                            <div class="leading-relaxed">${text.replace(/\n/g, '<br>')}</div>
+                        </div>
+                    `;
+                }
+
+                chatHistory.appendChild(msgDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }
+
+            function appendLoadingMessage() {
+                const id = 'loading-' + Date.now();
+                const msgDiv = document.createElement('div');
+                msgDiv.id = id;
+                msgDiv.className = 'flex gap-3 max-w-xl';
+                msgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-senac-orange flex items-center justify-center text-white shrink-0 text-sm shadow">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-slate-800 text-amber-300 text-xs p-3 rounded-2xl rounded-tl-none border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-spinner animate-spin text-base"></i>
+                        <span>Consultando normas e legislação de aprendizagem...</span>
+                    </div>
+                `;
+                chatHistory.appendChild(msgDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+                return id;
+            }
+
+            function removeLoadingMessage(id) {
+                const el = document.getElementById(id);
+                if (el) el.remove();
+            }
+        }
+
+        function initFileUpload() {
+            const fileInput = document.getElementById('atestadoFile');
+            const filePreview = document.getElementById('filePreview');
+            const uploadPrompt = document.getElementById('uploadPrompt');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const removeBtn = document.getElementById('removeFileBtn');
+            const atestadoForm = document.getElementById('atestadoForm');
+            const scanAtestadoAiBtn = document.getElementById('scanAtestadoAiBtn');
+            const btnAiOcr = document.getElementById('btnAiOcr');
+
+            let currentBase64 = null;
+
+            fileInput.addEventListener('change', (e) => {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    fileName.textContent = file.name;
+                    fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+
+                    uploadPrompt.classList.add('hidden');
+                    filePreview.classList.remove('hidden');
+                    btnAiOcr.classList.remove('hidden');
+
+                    // Read base64
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        currentBase64 = evt.target.result.split(',')[1];
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                fileInput.value = '';
+                currentBase64 = null;
+                uploadPrompt.classList.remove('hidden');
+                filePreview.classList.add('hidden');
+                btnAiOcr.classList.add('hidden');
+            });
+
+            // OCR Extraction with Gemini API
+            async function performAiOcr() {
+                if (!currentBase64) {
+                    showToast('Erro', 'Por favor selecione um arquivo de imagem do atestado primeiro.', 'warning');
+                    return;
+                }
+
+                scanAtestadoAiBtn.disabled = true;
+                scanAtestadoAiBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Analisando Atestado com IA Gemini...</span>`;
+
+                try {
+                    const payload = {
+                        contents: [{
+                            role: 'user',
+                            parts: [
+                                { text: "Analise este atestado médico e extraia os dados para o formulário. Retorne um JSON com a seguinte estrutura estrita: {\"dataInicio\": \"AAAA-MM-DD\", \"dias\": 1, \"cid\": \"código se houver ou em branco\", \"medico\": \"Nome do Médico e CRM\", \"motivo\": \"Resumo do motivo ou atendimento\"}. Se não conseguir determinar algum dado, forneça uma estimativa plausível com base no documento." },
+                                {
+                                    inlineData: {
+                                        mimeType: fileInput.files[0].type || "image/png",
+                                        data: currentBase64
+                                    }
+                                }
+                            ]
+                        }],
+                        generationConfig: {
+                            responseMimeType: "application/json"
+                        }
+                    };
+
+                    const result = await callGeminiAPI(payload);
+                    const jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (jsonText) {
+                        const parsed = JSON.parse(jsonText);
+                        
+                        if (parsed.dataInicio) document.getElementById('atestadoData').value = parsed.dataInicio;
+                        if (parsed.dias) document.getElementById('atestadoDias').value = parsed.dias;
+                        if (parsed.cid) document.getElementById('atestadoCid').value = parsed.cid;
+                        if (parsed.medico) document.getElementById('atestadoMedico').value = parsed.medico;
+                        if (parsed.motivo) document.getElementById('atestadoObs').value = parsed.motivo;
+
+                        showToast('IA Gemini:', 'Dados extraídos e preenchidos no formulário com sucesso!', 'success');
+                    }
+                } catch (err) {
+                    showToast('Atenção', 'Não foi possível ler os dados do documento automaticamente. Preencha manualmente.', 'warning');
+                } finally {
+                    scanAtestadoAiBtn.disabled = false;
+                    scanAtestadoAiBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Extrair Dados Automaticamente com Gemini IA</span>`;
+                }
+            }
+
+            scanAtestadoAiBtn.addEventListener('click', performAiOcr);
+            btnAiOcr.addEventListener('click', performAiOcr);
+
+            // Handle Form Submit
+            atestadoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const dataVal = document.getElementById('atestadoData').value;
+                const diasVal = document.getElementById('atestadoDias').value;
+                const medicoVal = document.getElementById('atestadoMedico').value;
+
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    showToast('Atenção', 'Por favor, anexe a imagem/PDF do atestado médico.', 'warning');
+                    return;
+                }
+
+                // Add to List
+                const list = document.getElementById('atestadosList');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition animate-fade-in';
+                
+                const dataFormatted = new Date(dataVal).toLocaleDateString('pt-BR');
+                
+                newItem.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-bold text-slate-800">${dataFormatted} - ${diasVal} Dia(s)</span>
+                        <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                            <i class="fa-solid fa-spinner animate-spin"></i> Em Análise RH
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-600">${medicoVal}</p>
+                    <p class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+                        <span>Enviado Agora (Validado por IA)</span>
+                        <span class="text-senac-blue underline cursor-pointer hover:text-senac-orange">Ver Comprovante</span>
+                    </p>
+                `;
+
+                list.insertBefore(newItem, list.firstChild);
+
+                // Reset Form
+                atestadoForm.reset();
+                uploadPrompt.classList.remove('hidden');
+                filePreview.classList.add('hidden');
+                btnAiOcr.classList.add('hidden');
+
+                showToast(
+                    'Atestado Enviado!',
+                    'Seu comprovante foi digitalizado e encaminhado para validação do RH/Senac.',
+                    'success'
+                );
+            });
+        }
+
+        function initEspelhoAiAnalysis() {
+            const btn = document.getElementById('btnAnalisePontoIa');
+            const card = document.getElementById('aiEspelhoCard');
+            const content = document.getElementById('aiEspelhoContent');
+
+            btn.addEventListener('click', async () => {
+                card.classList.remove('hidden');
+                content.innerHTML = `
+                    <div class="flex items-center gap-2 text-amber-200">
+                        <i class="fa-solid fa-spinner animate-spin"></i>
+                        <span>Gerando relatório inteligente de assiduidade do aprendiz...</span>
+                    </div>
+                `;
+
+                try {
+                    const prompt = `Analise os dados deste espelho de ponto de um Jovem Aprendiz do Senac e forneça um parecer construtivo em até 3 marcadores curtos sobre assiduidade, abonos e banco de horas:\n${JSON.stringify(espelhoData)}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                        systemInstruction: {
+                            parts: [{ text: "Você é um supervisor de RH e tutor do programa Senac de Aprendizagem. Faça uma análise motivadora, direta e em formato HTML simples (use <ul> e <li>) sobre a pontualidade do aluno." }]
+                        }
+                    }
+
+                    const response = await callGeminiAPI(payload);
+                    const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (text) {
+                        content.innerHTML = text;
+                    } else {
+                        content.innerHTML = "Não foi possível gerar a análise no momento.";
+                    }
+
+                } catch (err) {
+                    content.innerHTML = "Erro ao conectar à IA Gemini. Tente novamente mais tarde.";
+                }
+            });
+        }
+
+        // Live Clock Function
+        function initClock() {
+            const clockEl = document.getElementById('digitalClock');
+            const dateEl = document.getElementById('currentDate');
+            const todaySimpleEl = document.getElementById('todayDateSimple');
+
+            function updateTime() {
+                const now = new Date();
+                
+                // Format Time
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                clockEl.textContent = `${hours}:${minutes}:${seconds}`;
+
+                // Format Full Date
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const dateStr = now.toLocaleDateString('pt-BR', options);
+                dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
+                // Simple Date
+                const simpleDate = now.toLocaleDateString('pt-BR');
+                if(todaySimpleEl) todaySimpleEl.textContent = simpleDate;
+            }
+
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+
+        // Tab Navigation Switcher
+        function initTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.getAttribute('data-tab');
+
+                    // Active state for buttons
+                    tabBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-senac-orange/90', 'text-white');
+                        b.classList.add('text-slate-300', 'hover:bg-white/10');
+                    });
+                    btn.classList.add('active', 'bg-senac-orange/90', 'text-white');
+                    btn.classList.remove('text-slate-300', 'hover:bg-white/10');
+
+                    // Show content section
+                    tabContents.forEach(content => {
+                        if (content.id === targetTab) {
+                            content.classList.remove('hidden');
+                            content.classList.add('block');
+                        } else {
+                            content.classList.add('hidden');
+                            content.classList.remove('block');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Punch Type selector toggle
+        function initPunchTypeSelector() {
+            const btns = document.querySelectorAll('.punch-type-btn');
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btns.forEach(b => {
+                        b.classList.remove('bg-senac-blue', 'text-white', 'shadow-sm');
+                        b.classList.add('bg-slate-100', 'text-slate-700');
+                    });
+                    btn.classList.add('bg-senac-blue', 'text-white', 'shadow-sm');
+                    btn.classList.remove('bg-slate-100', 'text-slate-700');
+                    
+                    currentPunchType = btn.getAttribute('data-type');
+                });
+            });
+        }
+
+        // Punch Register Action
+        function initPunchButton() {
+            const btn = document.getElementById('baterPontoBtn');
+            btn.addEventListener('click', () => {
+                const now = new Date();
+                const timeFormatted = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+                // Add to state
+                punchesToday.push({
+                    id: Date.now(),
+                    type: currentPunchType,
+                    time: timeFormatted,
+                    status: 'Confirmado',
+                    location: 'Senac Campus'
+                });
+
+                // Update Timeline UI
+                renderTimeline();
+
+                // Show Toast Notification
+                showToast(
+                    'Ponto Registrado com Sucesso!',
+                    `Batida de ${currentPunchType} realizada às ${timeFormatted} via GPS Senac.`,
+                    'success'
+                );
+            });
+        }
+
+        // Render Punches Timeline
+        function renderTimeline() {
+            const container = document.getElementById('todayPunchesTimeline');
+            container.innerHTML = '';
+
+            if (punchesToday.length === 0) {
+                container.innerHTML = `
+                    <p class="text-xs text-slate-400 text-center py-4">Nenhuma batida registrada hoje.</p>
+                `;
+                return;
+            }
+
+            punchesToday.forEach(punch => {
+                const item = document.createElement('div');
+                item.className = 'relative flex items-center justify-between pl-8 py-1.5';
+                item.innerHTML = `
+                    <div class="absolute left-1.5 w-4 h-4 rounded-full bg-senac-orange border-2 border-white shadow-sm"></div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-800">${punch.type}</p>
+                        <p class="text-[11px] text-slate-400"><i class="fa-solid fa-location-dot text-slate-300"></i> ${punch.location}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-extrabold text-senac-blue font-mono">${punch.time}</span>
+                        <span class="block text-[10px] text-emerald-600 font-semibold">${punch.status}</span>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // File Upload / Digitalizer Simulator
+        function initFileUpload() {
+            const fileInput = document.getElementById('atestadoFile');
+            const filePreview = document.getElementById('filePreview');
+            const uploadPrompt = document.getElementById('uploadPrompt');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const removeBtn = document.getElementById('removeFileBtn');
+            const atestadoForm = document.getElementById('atestadoForm');
+
+            fileInput.addEventListener('change', (e) => {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    fileName.textContent = file.name;
+                    fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+
+                    uploadPrompt.classList.add('hidden');
+                    filePreview.classList.remove('hidden');
+                }
+            });
+
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                fileInput.value = '';
+                uploadPrompt.classList.remove('hidden');
+                filePreview.classList.add('hidden');
+            });
+
+            // Handle Form Submit
+            atestadoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const dataVal = document.getElementById('atestadoData').value;
+                const diasVal = document.getElementById('atestadoDias').value;
+                const medicoVal = document.getElementById('atestadoMedico').value;
+
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    showToast('Atenção', 'Por favor, anexe a imagem/PDF do atestado médico.', 'warning');
+                    return;
+                }
+
+                // Add to List
+                const list = document.getElementById('atestedosList');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition animate-fade-in';
+                
+                const dataFormatted = new Date(dataVal).toLocaleDateString('pt-BR');
+                
+                newItem.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-bold text-slate-800">${dataFormatted} - ${diasVal} Dia(s)</span>
+                        <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                            <i class="fa-solid fa-spinner animate-spin"></i> Em Análise RH
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-600">${medicoVal}</p>
+                    <p class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+                        <span>Enviado Agora</span>
+                        <span class="text-senac-blue underline cursor-pointer hover:text-senac-orange">Ver Comprovante</span>
+                    </p>
+                `;
+
+                list.insertBefore(newItem, list.firstChild);
+
+                // Reset Form
+                atestadoForm.reset();
+                uploadPrompt.classList.remove('hidden');
+                filePreview.classList.add('hidden');
+
+                showToast(
+                    'Atestado Enviado!',
+                    'Seu comprovante foi digitalizado e encaminhado para validação do RH/Senac.',
+                    'success'
+                );
+            });
+        }
+
+        // Render Monthly Espelho
+        function renderEspelho() {
+            const tbody = document.getElementById('espelhoTableBody');
+            tbody.innerHTML = '';
+
+            espelhoData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 border-b border-slate-100 text-slate-700';
+
+                let badgeClass = 'bg-emerald-100 text-emerald-800';
+                if(row.status === 'Atestado') badgeClass = 'bg-amber-100 text-amber-800';
+
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-slate-800">${row.data}</td>
+                    <td class="p-3">
+                        <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded ${row.local === 'Senac' ? 'bg-blue-50 text-senac-blue font-bold border border-blue-200' : 'bg-slate-100 text-slate-600'}">
+                            ${row.local}
+                        </span>
+                    </td>
+                    <td class="p-3 text-center font-mono">${row.e1}</td>
+                    <td class="p-3 text-center font-mono">${row.s1}</td>
+                    <td class="p-3 text-center font-mono">${row.e2}</td>
+                    <td class="p-3 text-center font-mono">${row.s2}</td>
+                    <td class="p-3 text-center font-mono font-bold text-slate-900">${row.total}</td>
+                    <td class="p-3 text-center">
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeClass}">
+                            ${row.status}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Toast Feedback helper
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+
+            if (type === 'success') {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+                toast.className = toast.className.replace(/border-\w+-\d+/, 'border-emerald-500');
+            } else if (type === 'warning') {
+                toastIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber-400"></i>';
+                toast.className = toast.className.replace(/border-\w+-\d+/, 'border-amber-500');
+            }
+
+            // Show Toast
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
